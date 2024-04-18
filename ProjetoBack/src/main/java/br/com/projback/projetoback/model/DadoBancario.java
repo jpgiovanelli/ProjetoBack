@@ -9,6 +9,8 @@ public class DadoBancario {
     private String codigoBanco;
     private String agencia;
     private String conta;
-    private TipoConta tipoConta = TipoConta.CONTA_CORRENTE;
+    private TipoConta tipoConta;
+
+    private int id_lojista;
 
 }
