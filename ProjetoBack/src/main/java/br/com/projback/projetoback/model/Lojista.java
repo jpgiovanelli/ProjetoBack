@@ -4,6 +4,8 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.List;
+
 @Data
 public class Lojista {
     private int id_lojista;
