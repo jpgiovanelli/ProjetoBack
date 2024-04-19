@@ -23,7 +23,4 @@ public class DadoBancario {
     @Column(name = "tipo_conta")
     private TipoConta tipoConta;
 
-
-    private int id_lojista;
-
 }

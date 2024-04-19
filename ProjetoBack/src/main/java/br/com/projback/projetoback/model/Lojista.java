@@ -26,6 +26,15 @@ public class Lojista {
     @Column
     private String cpf;
 
+    @OneToMany
+    @JoinColumn(name = "id_lojista", referencedColumnName = "id_lojista")
+    private List<DadoBancario> dado_bancario;
+
+    @OneToMany
+    @JoinColumn(name = "id_lojista", referencedColumnName = "id_lojista")
+    private List<Loja> lojas;
+
+
 
 
 }

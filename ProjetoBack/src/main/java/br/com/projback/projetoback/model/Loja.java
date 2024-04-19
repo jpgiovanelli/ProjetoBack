@@ -32,8 +32,9 @@ public class Loja {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_loja;
 
-    private int id_lojista;
-
+    @OneToMany
+    @JoinColumn(name = "id_loja", referencedColumnName = "id_loja")
+    private List<Endereco> endereco;
 
 
 }
