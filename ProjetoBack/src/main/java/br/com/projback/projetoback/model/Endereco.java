@@ -24,12 +24,8 @@ public class Endereco {
     private String pais;
     @Column
     private String estado;
-
-    private TipoEndereco endereco;
-
-
-    private int id_loja;
-    private int id_lojista;
+    @Column
+    private TipoEndereco tipo_endereco;
 
 
 }
