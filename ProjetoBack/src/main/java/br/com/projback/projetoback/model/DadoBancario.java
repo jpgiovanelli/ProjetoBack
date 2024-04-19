@@ -1,16 +1,26 @@
 package br.com.projback.projetoback.model;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
 public class DadoBancario {
-    private int banco_id;
-    private String codigoBanco;
-    private String agencia;
-    private String conta;
-    private TipoConta tipoConta;
 
-    private int id_lojista;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int banco_id;
+
+    @Column(name = "cod_banco")
+    private String codigoBanco;
+
+    @Column(name = "agencia")
+    private String agencia;
+
+    @Column(name = "conta")
+    private String conta;
+
+    @Column(name = "tipo_conta")
+    private TipoConta tipoConta;
 
 }
