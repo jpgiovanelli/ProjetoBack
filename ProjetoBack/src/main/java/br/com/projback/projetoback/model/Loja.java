@@ -1,9 +1,6 @@
 package br.com.projback.projetoback.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@Entity
 public class Loja {
     @Column
     private String cnpj;
