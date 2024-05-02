@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,11 +31,11 @@ public class Loja {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_loja;
+    private int id;
 
     @OneToMany
-    @JoinColumn(name = "id_loja", referencedColumnName = "id_loja")
-    private List<Endereco> endereco;
+    @JoinColumn(name = "id_loja", referencedColumnName = "id")
+    private List<Endereco> endereco = new ArrayList<>();
 
 
 }
