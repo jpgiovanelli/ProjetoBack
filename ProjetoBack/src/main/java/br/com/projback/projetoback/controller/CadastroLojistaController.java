@@ -1,5 +1,8 @@
 package br.com.projback.projetoback.controller;
 
+import br.com.projback.projetoback.model.DadoBancario;
+import br.com.projback.projetoback.model.Endereco;
+import br.com.projback.projetoback.model.Loja;
 import br.com.projback.projetoback.model.Lojista;
 import br.com.projback.projetoback.repository.DadoBancario_Repository;
 import br.com.projback.projetoback.repository.Endereco_Repository;
@@ -29,9 +32,18 @@ public class CadastroLojistaController {
     private Lojista_Repository lojistaRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createLojista(@RequestBody @Valid CadastroLojistaRequest request) {
+    public ResponseEntity<Object> createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
 
         Lojista lojista = Lojista.fromRequest(request);
+
+        Loja loja = lojista.getLojas().getFirst();
+        Endereco endereco = loja.getEndereco().getFirst();
+        DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
+
+        lojistaRepository.save(lojista);
+        lojaRepository.save(loja);
+        enderecoRepository.save(endereco);
+        dadoBancarioRepository.save(dadoBancario);
 
         System.out.println(lojista);
         System.out.println("---------------------------");

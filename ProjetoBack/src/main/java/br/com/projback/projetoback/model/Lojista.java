@@ -1,10 +1,12 @@
 package br.com.projback.projetoback.model;
 
+import br.com.projback.projetoback.exception.LojaException;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -12,7 +14,7 @@ import java.util.List;
 public class Lojista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_lojista;
+    private int id;
     @Column
     private String nome_completo;
     @Column
@@ -27,14 +29,14 @@ public class Lojista {
     private String cpf;
 
     @OneToMany
-    @JoinColumn(name = "id_lojista", referencedColumnName = "id_lojista")
-    private List<DadoBancario> dado_bancario;
+    @JoinColumn(name = "id_lojista", referencedColumnName = "id")
+    private List<DadoBancario> dado_bancario = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "id_lojista", referencedColumnName = "id_lojista")
-    private List<Loja> lojas;
+    @JoinColumn(name = "id_lojista", referencedColumnName = "id")
+    private List<Loja> lojas = new ArrayList<>();
 
-    public static Lojista fromRequest(CadastroLojistaRequest request) {
+    public static Lojista fromRequest(CadastroLojistaRequest request) throws Exception {
         Lojista lojista = new Lojista();
 
         lojista.setNome_completo(request.getNome_completo());
@@ -43,19 +45,22 @@ public class Lojista {
         lojista.setCpf(request.getCpf());
         lojista.setData_cadastro(request.getData_cadastro());
 
-        DadoBancario dadobancario = new DadoBancario();
-        dadobancario.setAgencia(request.getAgencia());
-        dadobancario.setConta(request.getConta());
+        DadoBancario dadoBancario = new DadoBancario();
 
         if (request.getTipoConta().equals("CC")) {
-            dadobancario.setTipoConta(TipoConta.CONTA_CORRENTE);
+            dadoBancario.setTipoConta(TipoConta.CONTA_CORRENTE);
         } else if (request.getTipoConta().equals("CP")) {
-            dadobancario.setTipoConta(TipoConta.CONTA_POUPANCA);
+            dadoBancario.setTipoConta(TipoConta.CONTA_POUPANCA);
         } else if (request.getTipoConta().equals("CI")) {
-            dadobancario.setTipoConta(TipoConta.CONTA_INVESTIMENTO);
+            dadoBancario.setTipoConta(TipoConta.CONTA_INVESTIMENTO);
+        } else {
+            throw new LojaException("tipoConta", "Tipo de conta invalido, valores validos: CC, CI, CP");
         }
 
-        lojista.getDado_bancario().add(dadobancario);
+        dadoBancario.setConta(request.getConta());
+        dadoBancario.setAgencia(request.getAgencia());
+        dadoBancario.setCodigoBanco(request.getCodigoBanco());
+        lojista.getDado_bancario().add(dadoBancario);
 
         Loja loja = new Loja();
         loja.setCnpj(request.getCnpj());
