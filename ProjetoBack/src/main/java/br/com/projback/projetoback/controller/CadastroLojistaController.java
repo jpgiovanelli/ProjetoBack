@@ -1,5 +1,6 @@
 package br.com.projback.projetoback.controller;
 
+import br.com.projback.projetoback.model.Lojista;
 import br.com.projback.projetoback.repository.DadoBancario_Repository;
 import br.com.projback.projetoback.repository.Endereco_Repository;
 import br.com.projback.projetoback.repository.Loja_Repository;
@@ -30,7 +31,9 @@ public class CadastroLojistaController {
     @PostMapping("/create")
     public ResponseEntity<Object> createLojista(@RequestBody @Valid CadastroLojistaRequest request) {
 
-        System.out.println(request);
+        Lojista lojista = Lojista.fromRequest(request);
+
+        System.out.println(lojista);
         System.out.println("---------------------------");
 
         return new ResponseEntity(HttpStatus.OK);

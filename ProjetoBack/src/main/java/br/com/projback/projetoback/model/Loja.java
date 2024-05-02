@@ -14,7 +14,7 @@ public class Loja {
     private String cnpj;
 
     @Column
-    private String nome;
+    private String nome_loja;
 
     @Column
     private LocalDateTime data_cadastro;
