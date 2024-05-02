@@ -29,13 +29,13 @@ public class CadastroLojistaRequest {
     private String estado;
 
     @NotNull(message="Nao pode estar em branco")
-    private int tipo_endereco;
+    private String tipo_endereco;
 
     // Loja
     @NotBlank(message="Nao pode estar em branco")
     private String cnpj;
     @NotBlank(message="Nao pode estar em branco")
-    private String nome;
+    private String nome_loja;
 
     private LocalDateTime data_cadastro = LocalDateTime.now();
     @NotBlank(message="Nao pode estar em branco")
@@ -52,7 +52,7 @@ public class CadastroLojistaRequest {
     @NotBlank(message="Nao pode estar em branco")
     private String conta;
     @NotNull(message="Nao pode estar em branco")
-    private int tipoConta;
+    private String tipoConta;
 
     // Lojista
     @NotBlank(message="Nao pode estar em branco")
