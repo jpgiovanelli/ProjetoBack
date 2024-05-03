@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "loja")
 public class Loja {
     @Column
     private String cnpj;

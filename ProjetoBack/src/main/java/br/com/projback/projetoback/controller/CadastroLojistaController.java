@@ -40,10 +40,10 @@ public class CadastroLojistaController {
         Endereco endereco = loja.getEndereco().getFirst();
         DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
 
-        lojistaRepository.save(lojista);
-        lojaRepository.save(loja);
-        enderecoRepository.save(endereco);
         dadoBancarioRepository.save(dadoBancario);
+        enderecoRepository.save(endereco);
+        lojaRepository.save(loja);
+        lojistaRepository.save(lojista);
 
         System.out.println(lojista);
         System.out.println("---------------------------");
