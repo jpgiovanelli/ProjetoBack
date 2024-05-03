@@ -37,7 +37,6 @@ public class CadastroLojistaRequest {
     @NotBlank(message="Nao pode estar em branco")
     private String nome_loja;
 
-    private LocalDateTime data_cadastro = LocalDateTime.now();
     @NotBlank(message="Nao pode estar em branco")
     private String url;
 

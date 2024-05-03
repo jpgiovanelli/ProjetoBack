@@ -18,7 +18,7 @@ public class Loja {
     private String nome_loja;
 
     @Column
-    private LocalDateTime data_cadastro;
+    private LocalDateTime data_cadastro = LocalDateTime.now();
 
     @Column
     private String url;
@@ -28,6 +28,9 @@ public class Loja {
 
     @Column
     private String aba_prod_add;
+
+    @Column
+    private Boolean enable = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -23,7 +23,7 @@ public class Lojista {
     private String telefone;
 
     @Column
-    private LocalDateTime data_cadastro;
+    private LocalDateTime data_cadastro = LocalDateTime.now();
 
     @Column
     private String cpf;
@@ -43,7 +43,6 @@ public class Lojista {
         lojista.setEmail(request.getEmail());
         lojista.setTelefone(request.getTelefone());
         lojista.setCpf(request.getCpf());
-        lojista.setData_cadastro(request.getData_cadastro());
 
         DadoBancario dadoBancario = new DadoBancario();
 
@@ -65,7 +64,6 @@ public class Lojista {
         Loja loja = new Loja();
         loja.setCnpj(request.getCnpj());
         loja.setNome_loja(request.getNome_loja());
-        loja.setData_cadastro(request.getData_cadastro());
         loja.setUrl(request.getUrl());
         loja.setMax_prod_page(request.getMax_prod_page());
         loja.setAba_prod_add(request.getAba_prod_add());
@@ -83,6 +81,8 @@ public class Lojista {
             endereco.setTipo_endereco(TipoEndereco.LOJA);
         } else if (request.getTipo_endereco().equals("RESIDENCIAL")) {
             endereco.setTipo_endereco(TipoEndereco.RESIDENCIAL);
+        } else {
+            throw new LojaException("tipo_endereco", "Tipo de ENDERECO invalido, valores validos: LOJA, RESIDENCIAL");
         }
 
         loja.getEndereco().add(endereco);
