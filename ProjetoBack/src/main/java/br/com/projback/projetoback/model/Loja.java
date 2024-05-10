@@ -30,7 +30,13 @@ public class Loja {
     private String aba_prod_add;
 
     @Column
-    private Boolean enable = false;
+    private Boolean enabled = false;
+
+    @Column
+    private LocalDateTime dtAtivacao;
+
+    @Column
+    private String userNameAtivacao;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
