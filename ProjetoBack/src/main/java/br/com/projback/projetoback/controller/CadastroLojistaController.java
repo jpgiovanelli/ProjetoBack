@@ -33,7 +33,7 @@ public class CadastroLojistaController {
     private Lojista_Repository lojistaRepository;
 
     @PostMapping("/create")
-    public CadastroLojistaResponse createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
+    public ResponseEntity<CadastroLojistaResponse> createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
 
         Lojista lojista = Lojista.fromRequest(request);
 
@@ -51,7 +51,7 @@ public class CadastroLojistaController {
 
         CadastroLojistaResponse response = Lojista.toResponse(lojista);
 
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
