@@ -9,6 +9,7 @@ import br.com.projback.projetoback.repository.Endereco_Repository;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.repository.Lojista_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
+import br.com.projback.projetoback.response.CadastroLojistaResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class CadastroLojistaController {
     private Lojista_Repository lojistaRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
+    public CadastroLojistaResponse createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
 
         Lojista lojista = Lojista.fromRequest(request);
 
@@ -48,7 +49,9 @@ public class CadastroLojistaController {
         System.out.println(lojista);
         System.out.println("---------------------------");
 
-        return new ResponseEntity(HttpStatus.OK);
+        CadastroLojistaResponse response = Lojista.toResponse(lojista);
+
+        return response;
     }
 
 

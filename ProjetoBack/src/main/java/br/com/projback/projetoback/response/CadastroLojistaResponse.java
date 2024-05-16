@@ -5,7 +5,7 @@ import br.com.projback.projetoback.model.TipoEndereco;
 import lombok.Data;
 
 @Data
-public class CadastroLojistaResponse {
+public class  CadastroLojistaResponse {
     private String logradouro;
     private String complemento;
     private String cep;
