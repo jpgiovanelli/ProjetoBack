@@ -29,7 +29,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn compile --file ./ProjetoBack/pom.xml
-   # - name: Test with Maven
-    #  run: mvn test --file pom.xml
+    - name: Test with Maven
+      run: mvn test --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
