@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class  CadastroLojistaResponse {
+    private int id;
     private String logradouro;
     private String complemento;
     private String cep;
@@ -23,6 +24,7 @@ public class  CadastroLojistaResponse {
     private String agencia;
     private String conta;
     private TipoConta tipoConta;
+    private Boolean enabled;
     private String nome_completo;
     private String email;
     private String telefone;

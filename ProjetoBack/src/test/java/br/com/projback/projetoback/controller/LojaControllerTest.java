@@ -1,6 +1,5 @@
-package br.com.projback.projetoback.service;
+package br.com.projback.projetoback.controller;
 
-import br.com.projback.projetoback.controller.CadastroLojistaController;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
 import br.com.projback.projetoback.response.CadastroLojistaResponse;
@@ -9,11 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 
 import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
-public class LojaServiceTeste {
+public class LojaControllerTest {
     @Autowired
     private CadastroLojistaController controller;
 
@@ -49,10 +49,11 @@ public class LojaServiceTeste {
 
         given(this.lojaRepository.findByCnpj(request.getCnpj()));
 
-        CadastroLojistaResponse response = this.controller.createLojista(request);
+        ResponseEntity<CadastroLojistaResponse> response = this.controller.createLojista(request);
 
         Assertions.assertNotNull(request);
-        Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
-        Assertions.assertNotNull(response.getNome_completo());
+        Assertions.assertEquals(request.getNome_completo(), response.getBody().getNome_completo());
+        Assertions.assertNotNull(response.getBody().getId());
+        Assertions.assertFalse(response.getBody().getEnabled());
     }
 }
