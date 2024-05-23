@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
@@ -34,9 +36,9 @@ public class LojaControllerTest {
         request.setNome_loja("aaa");
         request.setCodigoBanco("3333");
         request.setUrl("http://qqcoisa.com");
-        request.setTipoConta("1");
+        request.setTipoConta("CI");
         request.setTelefone("(21)11111-1111");
-        request.setTipo_endereco("fasda");
+        request.setTipo_endereco("RESIDENCIAL");
         request.setMax_prod_page(3);
         request.setNome_completo("balla alala");
         request.setPais("brazuka");
@@ -44,10 +46,9 @@ public class LojaControllerTest {
         request.setCpf("111.111.111-11");
         request.setEstado("rj");
         request.setComplemento("apt 000");
+        request.setEmail("blabal@blabla.com");
 
-
-
-        given(this.lojaRepository.findByCnpj(request.getCnpj()));
+        given(this.lojaRepository.findByCnpj(request.getCnpj())).willReturn(Optional.empty());
 
         ResponseEntity<CadastroLojistaResponse> response = this.controller.createLojista(request);
 

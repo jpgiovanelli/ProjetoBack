@@ -24,7 +24,7 @@ public class  CadastroLojistaResponse {
     private String agencia;
     private String conta;
     private TipoConta tipoConta;
-    private Boolean enabled;
+    private Boolean enabled = false;
     private String nome_completo;
     private String email;
     private String telefone;
