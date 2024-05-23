@@ -14,8 +14,6 @@ import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
 public class LojaServiceTeste {
-
-
     @Autowired
     private CadastroLojistaController controller;
 
@@ -49,12 +47,12 @@ public class LojaServiceTeste {
 
 
 
-        given(this.lojaRepository.findBy(request.getCnpj()));
+        given(this.lojaRepository.findByCnpj(request.getCnpj()));
 
         CadastroLojistaResponse response = this.controller.createLojista(request);
 
         Assertions.assertNotNull(request);
-        Assertions.assertEquals(response.getNome_completo(), response.getNome_completo());
+        Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
         Assertions.assertNotNull(response.getNome_completo());
     }
 }
