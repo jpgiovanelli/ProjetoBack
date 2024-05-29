@@ -181,20 +181,4 @@ public class Lojista {
         return response;
     }
 
-    public static LojaResponse toResponse(Loja loja) {
-
-        LojaResponse response = new LojaResponse();
-        response.setCnpj(loja.getCnpj());
-        response.setNome_loja(loja.getNome_loja());
-        response.setUrl(loja.getUrl());
-        response.setMax_prod_page(loja.getMax_prod_page());
-        response.setAba_prod_add(loja.getAba_prod_add());
-        response.setData_cadastro(loja.getData_cadastro());
-        response.setEnabled(loja.getEnabled());
-        response.setId(loja.getId());
-        response.setDtAtivacao(loja.getDtAtivacao());
-        response.setUserNameAtivacao(loja.getUserNameAtivacao());
-
-        return response;
-    }
 }
