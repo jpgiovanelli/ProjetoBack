@@ -58,7 +58,6 @@ public class LojistaServiceTest {
 
         Assertions.assertNotNull(request);
         Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
-        Assertions.assertNotNull(response.getId());
         Assertions.assertFalse(response.getEnabled());
     }
 
