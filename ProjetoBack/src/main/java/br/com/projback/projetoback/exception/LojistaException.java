@@ -1,8 +1,8 @@
 package br.com.projback.projetoback.exception;
 
-public class LojaException extends Exception{
+public class LojistaException extends Exception{
     private String field;
-    public LojaException(String field, String message){
+    public LojistaException(String field, String message){
         super(message);
         this.field = field;
     }

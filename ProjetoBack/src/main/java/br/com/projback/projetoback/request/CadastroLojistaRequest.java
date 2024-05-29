@@ -40,7 +40,7 @@ public class CadastroLojistaRequest {
     private String tipo_endereco;
 
     // Loja
-    @Pattern(regexp = "^\\d{2}.\\d{3}.\\d{3}\\/\\d{4}-\\d{2}$",message = "Campo CNPJ está incorreto")
+    @Pattern(regexp = "^\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}$",message = "Campo CNPJ está incorreto")
     @NotBlank(message="Nao pode estar em branco")
     private String cnpj;
 

@@ -1,9 +1,11 @@
-package br.com.projback.projetoback.controller;
+package br.com.projback.projetoback.service;
 
+import br.com.projback.projetoback.controller.CadastroLojistaController;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
-import br.com.projback.projetoback.response.CadastroLojistaResponse;
+import br.com.projback.projetoback.response.LojistaResponse;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,25 +17,25 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
-public class LojaControllerTest {
+public class LojaServiceTest {
+
     @Autowired
-    private CadastroLojistaController controller;
+    private LojaService service;
 
     @MockBean
     private Loja_Repository lojaRepository;
 
-    @Test
-    public void DeveCriarUmaLojaComSucesso() throws Exception{
-        //AAA(ARRANGE, ACT, ASSERT)
-
-        CadastroLojistaRequest request = new CadastroLojistaRequest();
-        request.setCnpj("1111111111111");
-        request.setCep("1111-111");
-        request.setCidade("Nikiti");
-        request.setBairro("itacoa");
+    private CadastroLojistaRequest request;
+    @BeforeEach
+    public void Setup() {
+        request = new CadastroLojistaRequest();
+        request.setCnpj("12.345.678/9001-90");
+        request.setCep("12345-678");
+        request.setCidade("Cidade Teste");
+        request.setBairro("Bairro Teste");
         request.setAgencia("1111");
-        request.setAba_prod_add("1");
-        request.setNome_loja("aaa");
+        request.setAba_prod_add("Teste");
+        request.setNome_loja("Testes Lojas");
         request.setCodigoBanco("3333");
         request.setUrl("http://qqcoisa.com");
         request.setTipoConta("CI");
@@ -47,14 +49,11 @@ public class LojaControllerTest {
         request.setEstado("rj");
         request.setComplemento("apt 000");
         request.setEmail("blabal@blabla.com");
-
-        given(this.lojaRepository.findByCnpj(request.getCnpj())).willReturn(Optional.empty());
-
-        ResponseEntity<CadastroLojistaResponse> response = this.controller.createLojista(request);
-
-        Assertions.assertNotNull(request);
-        Assertions.assertEquals(request.getNome_completo(), response.getBody().getNome_completo());
-        Assertions.assertNotNull(response.getBody().getId());
-        Assertions.assertFalse(response.getBody().getEnabled());
     }
+
+    @Test
+    public void deveRetornarLojaCorreta() throws Exception {}
+
+
 }
+

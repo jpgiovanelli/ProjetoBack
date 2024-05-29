@@ -1,58 +1,59 @@
 package br.com.projback.projetoback.controller;
 
-import br.com.projback.projetoback.model.DadoBancario;
-import br.com.projback.projetoback.model.Endereco;
-import br.com.projback.projetoback.model.Loja;
-import br.com.projback.projetoback.model.Lojista;
-import br.com.projback.projetoback.repository.DadoBancario_Repository;
-import br.com.projback.projetoback.repository.Endereco_Repository;
-import br.com.projback.projetoback.repository.Loja_Repository;
-import br.com.projback.projetoback.repository.Lojista_Repository;
+import br.com.projback.projetoback.exception.LojistaException;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
-import br.com.projback.projetoback.response.CadastroLojistaResponse;
+import br.com.projback.projetoback.request.EnableLojaRequest;
+import br.com.projback.projetoback.response.LojaResponse;
+import br.com.projback.projetoback.response.LojistaResponse;
+import br.com.projback.projetoback.service.LojaService;
+import br.com.projback.projetoback.service.LojistaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/cadastro/lojista")
+
+@RestController
+@RequestMapping("/lojista")
 public class CadastroLojistaController {
 
     @Autowired
-    private DadoBancario_Repository dadoBancarioRepository;
+    private LojistaService lojistaService;
+
     @Autowired
-    private Endereco_Repository enderecoRepository;
-    @Autowired
-    private Loja_Repository lojaRepository;
-    @Autowired
-    private Lojista_Repository lojistaRepository;
+    private LojaService lojaService;
 
     @PostMapping("/create")
-    public ResponseEntity<CadastroLojistaResponse> createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
-
-        Lojista lojista = Lojista.fromRequest(request);
-
-        Loja loja = lojista.getLojas().getFirst();
-        Endereco endereco = loja.getEndereco().getFirst();
-        DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
-
-        dadoBancarioRepository.save(dadoBancario);
-        enderecoRepository.save(endereco);
-        lojaRepository.save(loja);
-        lojistaRepository.save(lojista);
-
-        System.out.println(lojista);
-        System.out.println("---------------------------");
-
-        CadastroLojistaResponse response = Lojista.toResponse(lojista);
-
+    public ResponseEntity<LojistaResponse> createLojista(@RequestBody @Valid CadastroLojistaRequest request) throws Exception {
+        LojistaResponse response = lojistaService.createLojista(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("get/byId/{id}")
+    public ResponseEntity<LojistaResponse> getLojistaById(@PathVariable int id) throws LojistaException {
+        return new ResponseEntity<>(lojistaService.getLojistaById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("get/byCnpj/")
+    public ResponseEntity<LojaResponse> getLojistaByCnpj(@RequestParam String cnpj) throws LojistaException {
+        return new ResponseEntity<>(lojaService.getLojaByCnpj(cnpj), HttpStatus.OK);
+    }
+
+    @GetMapping("get/byCpf/")
+    public ResponseEntity<LojistaResponse> getLojistaByCpf(@RequestParam String cpf) throws LojistaException {
+        return new ResponseEntity<>(lojistaService.getLojistaByCpf(cpf), HttpStatus.OK);
+
+    }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<LojistaResponse> updateLojista(@PathVariable int id, @RequestBody @Valid CadastroLojistaRequest request) throws LojistaException {
+        return new ResponseEntity<>(lojistaService.updateLojista(id, request), HttpStatus.OK);
+    }
+
+    @PatchMapping("change-status/{id}")
+    public ResponseEntity<LojaResponse> changeStatusLoja(@PathVariable int id, @RequestBody @Valid EnableLojaRequest request) throws LojistaException {
+        return new ResponseEntity<>(lojaService.changeStatusLoja(id, request), HttpStatus.OK);
+    }
 
 }
