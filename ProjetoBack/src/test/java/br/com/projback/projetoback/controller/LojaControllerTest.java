@@ -2,7 +2,7 @@ package br.com.projback.projetoback.controller;
 
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
-import br.com.projback.projetoback.response.CadastroLojistaResponse;
+import br.com.projback.projetoback.response.LojistaResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class LojaControllerTest {
 
         given(this.lojaRepository.findByCnpj(request.getCnpj()));
 
-        ResponseEntity<CadastroLojistaResponse> response = this.controller.createLojista(request);
+        ResponseEntity<LojistaResponse> response = this.controller.createLojista(request);
 
         Assertions.assertNotNull(request);
         Assertions.assertEquals(request.getNome_completo(), response.getBody().getNome_completo());
