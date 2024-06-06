@@ -1,5 +1,6 @@
 package br.com.projback.projetoback.service;
 
+import br.com.projback.projetoback.model.Lojista;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.repository.Lojista_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
@@ -46,6 +47,8 @@ public class LojistaServiceTest {
         request.setEstado("rj");
         request.setComplemento("apt 000");
         request.setEmail("blabal@blabla.com");
+
+
     }
 
     @Test
@@ -59,9 +62,38 @@ public class LojistaServiceTest {
         Assertions.assertNotNull(request);
         Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
         Assertions.assertFalse(response.getEnabled());
+
+    }
+
+    @Test
+    public void DeveBuscarLojistaPorIDComSucesso() throws Exception{
+
+        int id = 1;
+
+
+
+        given(this.lojistaRepository.findById(id)).willReturn(Optional.of(new Lojista()));
+
+
+        LojistaResponse response = this.service.getLojistaById(id);
+
+        Assertions.assertNotNull(response);
+
     }
 
 
+    /*@Test
+    public void NaoDeveBuscarLojistaPorCpfQuandoNaoEncontrarNaBase() throws Exception{
+        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.empty());
 
+        LojistaResponse response = this.service.getLojistaByCpf(request.getCpf());
+        Assertions.assertNotNull(response);
+    }*/
 
+    @Test
+    public void DeveAtivarLojistaComSucesso() throws Exception{
+        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.of (new Lojista()));
+
+        
+    }
 }
