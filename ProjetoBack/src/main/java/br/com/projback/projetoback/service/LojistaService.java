@@ -51,11 +51,11 @@ public class LojistaService {
         return Lojista.toResponse(lojista);
     }
 
-    public LojistaResponse getLojistaById(int id) throws LojistaException {
+    public LojistaResponse getLojistaById(int id) {
         Optional<Lojista> optLojista = lojistaRepository.findById(id);
 
         if (optLojista.isEmpty())
-            throw new LojistaException("id", "Lojista não encontrado.");
+            return null;
 
         return Lojista.toResponse(optLojista.get());
     }

@@ -152,30 +152,36 @@ public class Lojista {
         response.setTelefone(lojista.getTelefone());
         response.setCpf(lojista.getCpf());
 
-        DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
+        if (lojista.getDado_bancario().isEmpty() == false) {
+            DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
 
-        response.setTipoConta(dadoBancario.getTipoConta());
+            response.setTipoConta(dadoBancario.getTipoConta());
 
-        response.setConta(dadoBancario.getConta());
-        response.setAgencia(dadoBancario.getAgencia());
-        response.setCodigoBanco(dadoBancario.getCodigoBanco());
+            response.setConta(dadoBancario.getConta());
+            response.setAgencia(dadoBancario.getAgencia());
+            response.setCodigoBanco(dadoBancario.getCodigoBanco());
+        }
 
-        Loja loja = lojista.getLojas().getFirst();
-        response.setCnpj(loja.getCnpj());
-        response.setNome_loja(loja.getNome_loja());
-        response.setUrl(loja.getUrl());
-        response.setMax_prod_page(loja.getMax_prod_page());
-        response.setAba_prod_add(loja.getAba_prod_add());
+        if (lojista.getLojas().isEmpty() == false) {
+            Loja loja = lojista.getLojas().getFirst();
+            response.setCnpj(loja.getCnpj());
+            response.setNome_loja(loja.getNome_loja());
+            response.setUrl(loja.getUrl());
+            response.setMax_prod_page(loja.getMax_prod_page());
+            response.setAba_prod_add(loja.getAba_prod_add());
 
-        Endereco endereco = loja.getEndereco().getFirst();
-        response.setLogradouro(endereco.getLogradouro());
-        response.setComplemento(endereco.getComplemento());
-        response.setCep(endereco.getCep());
-        response.setBairro(endereco.getBairro());
-        response.setCidade(endereco.getCidade());
-        response.setPais(endereco.getPais());
-        response.setEstado(endereco.getEstado());
-        response.setTipo_endereco(endereco.getTipo_endereco());
+            if (loja.getEndereco().isEmpty() == false) {
+                Endereco endereco = loja.getEndereco().getFirst();
+                response.setLogradouro(endereco.getLogradouro());
+                response.setComplemento(endereco.getComplemento());
+                response.setCep(endereco.getCep());
+                response.setBairro(endereco.getBairro());
+                response.setCidade(endereco.getCidade());
+                response.setPais(endereco.getPais());
+                response.setEstado(endereco.getEstado());
+                response.setTipo_endereco(endereco.getTipo_endereco());
+            }
+        }
 
 
         return response;
