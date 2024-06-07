@@ -50,4 +50,13 @@ public class UserService {
         return optuser.get();
 
     }
+
+    public User getUserByUsernameAndPassword(String username, String password) {
+        Optional<User> optuser = this.userRepository.findByUsernameAndPassword(username, password);
+
+        if (optuser.isEmpty())
+            return null;
+
+        return optuser.get();
+    }
 }
