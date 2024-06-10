@@ -67,33 +67,22 @@ public class LojistaServiceTest {
 
     @Test
     public void DeveBuscarLojistaPorIDComSucesso() throws Exception{
-
         int id = 1;
-
-
-
         given(this.lojistaRepository.findById(id)).willReturn(Optional.of(new Lojista()));
-
-
         LojistaResponse response = this.service.getLojistaById(id);
 
         Assertions.assertNotNull(response);
-
     }
-
-
-    /*@Test
-    public void NaoDeveBuscarLojistaPorCpfQuandoNaoEncontrarNaBase() throws Exception{
-        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.empty());
-
-        LojistaResponse response = this.service.getLojistaByCpf(request.getCpf());
-        Assertions.assertNotNull(response);
-    }*/
 
     @Test
-    public void DeveAtivarLojistaComSucesso() throws Exception{
-        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.of (new Lojista()));
-
-        
+    public void NaoDeveObterLojistaPorIdQuandoNaoEncontrarNaBase() {
+        int id = 1;
+        given(this.lojistaRepository.findById(id))
+                .willReturn(Optional.empty());
+        LojistaResponse response = this.service.getLojistaById(id);
+        Assertions.assertNull(response);
     }
+
+
+
 }
