@@ -10,6 +10,7 @@ import br.com.projback.projetoback.model.Profile;
 
 @Data
 @Entity
+@Table(name = "`user`")
 public class User {
 
     @Id

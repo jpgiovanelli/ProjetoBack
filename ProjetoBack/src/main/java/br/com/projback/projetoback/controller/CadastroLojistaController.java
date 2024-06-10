@@ -32,7 +32,12 @@ public class CadastroLojistaController {
 
     @GetMapping("get/byId/{id}")
     public ResponseEntity<LojistaResponse> getLojistaById(@PathVariable int id) throws LojistaException {
-        return new ResponseEntity<>(lojistaService.getLojistaById(id), HttpStatus.OK);
+
+        LojistaResponse response = lojistaService.getLojistaById(id);
+        if (response == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("get/byCnpj/")
