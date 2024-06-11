@@ -1,8 +1,12 @@
 package br.com.projback.projetoback.service;
 
 import br.com.projback.projetoback.controller.CadastroLojistaController;
+import br.com.projback.projetoback.exception.LojistaException;
+import br.com.projback.projetoback.model.Loja;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
+import br.com.projback.projetoback.request.EnableLojaRequest;
+import br.com.projback.projetoback.response.LojaResponse;
 import br.com.projback.projetoback.response.LojistaResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +25,9 @@ public class LojaServiceTest {
 
     @Autowired
     private LojaService service;
+
+    @Autowired
+    private LojistaService lojista_service;
 
     @MockBean
     private Loja_Repository lojaRepository;
@@ -52,8 +59,47 @@ public class LojaServiceTest {
     }
 
     @Test
-    public void deveRetornarLojaCorreta() throws Exception {}
+    public void ativarLojaComSucesso() throws Exception {
+        int id = 1;
+        given(this.lojaRepository.findById(id))
+                .willReturn(Optional.of(new Loja()));
 
+        EnableLojaRequest request = new EnableLojaRequest();
+        request.setEnabled(true);
+        request.setUserNameAtivacao("Dummy User");
 
+        LojaResponse response = this.service.changeStatusLoja(id, request);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.getEnabled());
+        Assertions.assertSame(response.getUserNameAtivacao(), "Dummy User");
+        Assertions.assertNotNull(response.getDtAtivacao());
+    }
+
+    @Test
+    public void NaoDeveAtivarLojaCasoNaoEncontreNaBase() throws Exception{
+        int id = 1;
+        given(this.lojaRepository.findById(id))
+                .willReturn(Optional.empty());
+
+        Assertions.assertThrowsExactly(LojistaException.class, () -> {
+            EnableLojaRequest request = new EnableLojaRequest();
+            request.setEnabled(true);
+            request.setUserNameAtivacao("Dummy User");
+
+            LojaResponse response = this.service.changeStatusLoja(id, request);
+        });
+
+    }
+
+    @Test
+    public void NaoDeveCriarUmaLojaQuandoExistirCNPJCadastrado() {
+        given(this.lojaRepository.findByCnpj(request.getCnpj()))
+                .willReturn(Optional.of(new Loja()));
+
+        Assertions.assertThrowsExactly(LojistaException.class, () -> {
+            LojistaResponse response = this.lojista_service.createLojista(this.request);
+        });
+    }
 }
 
