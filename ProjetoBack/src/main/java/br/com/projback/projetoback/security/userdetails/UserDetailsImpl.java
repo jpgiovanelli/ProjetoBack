@@ -1,10 +1,13 @@
 package br.com.projback.projetoback.security.userdetails;
 
+import br.com.projback.projetoback.model.Profile;
 import br.com.projback.projetoback.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -23,10 +26,11 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.user.getProfiles()
-                .stream()
-                .map((profile -> new SimpleGrantedAuthority(profile.getName())))
-                .collect(Collectors.toList());
+        ArrayList<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
+        for (Profile perfil: this.user.getProfiles()) {
+            roles.add(new SimpleGrantedAuthority(perfil.getName().toUpperCase()));
+        }
+        return roles;
     }
 
     @Override

@@ -12,12 +12,11 @@ import java.time.ZonedDateTime;
 
 @Service
 public class JwtTokenService {
-    private static final String SECRET_KEY = "123456789987654321ab";
+    private static final String SECRET_KEY = "1234567899876543210ab";
+    private static final String ISSUER = "mall-delivery-api";
 
-    private static final String ISSUER = "projeto-back-malldelivery";
-
-    public String generateToken(UserDetailsImpl user){
-        try{
+    public String generateToken(UserDetailsImpl user) {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             return JWT.create()
                     .withIssuer(ISSUER)
@@ -31,25 +30,25 @@ public class JwtTokenService {
         }
     }
 
-    public String getSubjectFromToken(String token){
-        try{
+    public String getSubjectFromToken(String token) {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             return JWT.require(algorithm)
-                    .withIssuer(ISSUER)
-                    .build()
-                    .verify(token)
-                    .getSubject();
+                      .withIssuer(ISSUER)
+                      .build()
+                      .verify(token)
+                      .getSubject();
         }
-        catch(JWTVerificationException exception){
+        catch (JWTVerificationException exception) {
             throw new JWTVerificationException("Token invalido", exception);
         }
     }
 
-    public Instant creationDate(){
+    public Instant creationDate() {
         return ZonedDateTime.now().toInstant();
     }
 
-    public Instant expirationDate(){
+    public Instant expirationDate() {
         return ZonedDateTime.now().plusHours(2).toInstant();
     }
 }

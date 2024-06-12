@@ -28,34 +28,32 @@ public class UserController {
     @Autowired
     private JwtTokenService jwtTokenService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<User> create(@RequestBody @Valid UserRequest request) throws LojistaException {
 
         User newUser = this.userService.create(request.getUsername(), request.getPassword(), request.getProfile_id());
 
-        return ResponseEntity.ok(newUser);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody @Valid UserRequest request) throws LojistaException{
         User user = this.userService.getUserByUsernameAndPassword(request.getUsername(), request.getPassword());
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwtToken = jwtTokenService.generateToken(userDetails);
+
+        String jwtToken = jwtTokenService.generateToken(new UserDetailsImpl(user));
+
         TokenResponse response = new TokenResponse();
         response.setToken(jwtToken);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/get/all")
     public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(this.userService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("get/byId/{id}")
     public ResponseEntity<User> getById(@PathVariable("id") int id) {
         User response = this.userService.getById(id);
 

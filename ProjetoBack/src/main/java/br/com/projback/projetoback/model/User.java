@@ -23,7 +23,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
 
 }

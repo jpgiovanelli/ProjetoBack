@@ -1,14 +1,18 @@
 package br.com.projback.projetoback.security.config;
 
 import br.com.projback.projetoback.security.authentication.UserAuthenticationFilter;
+import br.com.projback.projetoback.security.userdetails.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,37 +27,49 @@ public class SecurityConfiguration {
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/user",
-            "/lojista",
-            "/logista/get",
-            "/lojista/update",
-            "/lojista/change-status"
+            "/user/get/all",
+            "/user/get/byId/**",
+            "/lojista/**",
     };
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
+
 
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilter(HttpSecurity httpSecurity)throws Exception{
+    public SecurityFilterChain securityFilter(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf((opt)-> opt.disable())
-                .sessionManagement((opt)->opt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((opt)->{
+                .csrf((opt) -> opt.disable())
+                .authorizeHttpRequests((opt) -> {
                     opt.requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-                            .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-                            .anyRequest().denyAll();
+                       .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated();
                 })
+                .sessionManagement((opt) -> opt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
