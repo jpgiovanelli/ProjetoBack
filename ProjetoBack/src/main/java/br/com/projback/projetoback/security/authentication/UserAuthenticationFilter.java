@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.util.Arrays;
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class UserAuthenticationFilter extends OncePerRequestFilter {
@@ -34,16 +35,21 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token);
-                User user = usuarioRepository.findByUsername(subject).get();
-                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                Optional<User> user = usuarioRepository.findByUsername(subject);
 
-                //Cria o objeto de autenticação
+                if (user.isPresent()) {
+                    UserDetailsImpl userDetails = new UserDetailsImpl(user.get());
+
+                    //Cria o objeto de autenticação
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                //Define o objeto autenticado dentro do Spring
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    //Define o objeto autenticado dentro do Spring
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuário não encontrado");
+                }
             }
 
         }
