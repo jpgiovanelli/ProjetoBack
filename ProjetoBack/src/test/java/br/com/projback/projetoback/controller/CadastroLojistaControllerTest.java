@@ -1,6 +1,7 @@
 package br.com.projback.projetoback.controller;
 
 import br.com.projback.projetoback.model.*;
+import br.com.projback.projetoback.request.CadastroLojistaRequest;
 import br.com.projback.projetoback.service.LojistaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,6 +87,32 @@ public class CadastroLojistaControllerTest {
         .apply(springSecurity())
         .build();
 
+    }
+
+    private CadastroLojistaRequest cl_request;
+    @BeforeEach
+    public void Setup() {
+        cl_request = new CadastroLojistaRequest();
+        cl_request.setCnpj("12.345.679/9001-90");
+        cl_request.setCep("12345-678");
+        cl_request.setCidade("Cidade Teste");
+        cl_request.setBairro("Bairro Teste");
+        cl_request.setAgencia("1111");
+        cl_request.setAba_prod_add("Teste");
+        cl_request.setNome_loja("Testes Lojas");
+        cl_request.setCodigoBanco("3333");
+        cl_request.setUrl("http://qqcoisa.com");
+        cl_request.setTipoConta("CI");
+        cl_request.setTelefone("(21)11111-1111");
+        cl_request.setTipo_endereco("RESIDENCIAL");
+        cl_request.setMax_prod_page(3);
+        cl_request.setNome_completo("balla alala");
+        cl_request.setPais("brazuka");
+        cl_request.setLogradouro("sdfadfasfda");
+        cl_request.setCpf("111.111.118-11");
+        cl_request.setEstado("rj");
+        cl_request.setComplemento("apt 000");
+        cl_request.setEmail("blabal@blabla.com");
     }
 
     @Test
