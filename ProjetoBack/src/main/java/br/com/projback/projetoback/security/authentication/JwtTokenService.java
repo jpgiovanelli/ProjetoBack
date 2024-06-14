@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import io.github.cdimascio.dotenv.Dotenv;
 
 @Service
 public class JwtTokenService {
-    private static final String SECRET_KEY = "1234567899876543210ab";
+    private static final Dotenv dotenv = Dotenv.load();
+
+    private static final String SECRET_KEY = dotenv.get("SECRET_KEY");
     private static final String ISSUER = "mall-delivery-api";
 
     public String generateToken(UserDetailsImpl user) {
