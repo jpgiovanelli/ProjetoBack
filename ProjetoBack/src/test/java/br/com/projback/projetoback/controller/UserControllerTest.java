@@ -100,6 +100,22 @@ public class UserControllerTest {
     }
 
     @Test
+    public void deveCriarUserRetornandoNoContent() throws Exception {
+        UserRequest request = new UserRequest();
+        request.setUsername("teste");
+        request.setPassword("teste");
+        request.setProfile_id(1);
+
+        given(this.userService.create(request.getUsername(), request.getPassword(), request.getProfile_id())).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNoContent());
+    }
+
+
+    @Test
     @WithMockUser(username = "teste", password = "teste", roles = "USER")
     public void deveObterTodosOsUsuarios() throws Exception {
         given(this.userService.getAll()).willReturn(List.of(user));

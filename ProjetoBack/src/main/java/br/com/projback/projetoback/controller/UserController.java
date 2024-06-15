@@ -33,6 +33,10 @@ public class UserController {
 
         User newUser = this.userService.create(request.getUsername(), request.getPassword(), request.getProfile_id());
 
+        if (newUser == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
