@@ -110,4 +110,16 @@ public class UserServiceTest {
         Assertions.assertEquals(1, user.getProfiles().size());
         Assertions.assertEquals("ADMIN", user.getProfiles().get(0).getName());
     }
+
+    @Test
+    public void deveRetornarNullSeNaoAcharPerfilAoCriarUsuario() throws LojistaException {
+        given(this.perfilRepository.findById(1)).willReturn(Optional.empty());
+
+        try {
+            User user = this.service.create("teste", "teste", -1);
+        } catch (LojistaException e) {
+            Assertions.assertEquals("Perfil não encontrado", e.getMessage());
+        }
+    }
+
 }

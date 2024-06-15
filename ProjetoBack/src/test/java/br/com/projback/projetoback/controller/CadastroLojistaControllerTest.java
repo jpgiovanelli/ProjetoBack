@@ -2,6 +2,7 @@ package br.com.projback.projetoback.controller;
 
 import br.com.projback.projetoback.model.*;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
+import br.com.projback.projetoback.request.EnableLojaRequest;
 import br.com.projback.projetoback.service.LojaService;
 import br.com.projback.projetoback.service.LojistaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -131,6 +132,23 @@ public class CadastroLojistaControllerTest {
                 .andExpect(jsonPath("$.id", is(id)))
                 .andExpect(jsonPath("$.nome_completo", is(this.lojista.getNome_completo())));
     }
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    public void deveMudarStatusLojistaComSucesso() throws Exception {
+        int id = 0;
+        EnableLojaRequest request = new EnableLojaRequest();
+        request.setEnabled(true);
+        request.setUserNameAtivacao("Dummy User");
+
+        given(this.lojaService.changeStatusLoja(id, request)).willReturn(Loja.toResponse(this.lojista.getLojas().getFirst()));
+
+        mvc.perform(MockMvcRequestBuilders.patch("/lojista/change-status/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+    }
+
 
     @Test
     @WithMockUser(username = "user1", password = "pwd", roles = "USER")
