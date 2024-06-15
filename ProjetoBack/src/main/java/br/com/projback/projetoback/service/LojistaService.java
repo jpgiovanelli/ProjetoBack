@@ -77,9 +77,23 @@ public class LojistaService {
 
         Lojista lojista = Lojista.fromRequest(optLojista.get(), request);
 
-        Loja loja = lojista.getLojas().getFirst();
-        Endereco endereco = loja.getEndereco().getFirst();
-        DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
+        Loja loja;
+        Endereco endereco;
+
+        if (lojista.getLojas().size() > 0) {
+            loja = lojista.getLojas().getFirst();
+            endereco = loja.getEndereco().getFirst();
+        } else {
+            loja = new Loja();
+            endereco = new Endereco();
+        }
+
+        DadoBancario dadoBancario;
+        if (lojista.getDado_bancario().size() > 0) {
+            dadoBancario = lojista.getDado_bancario().getFirst();
+        } else {
+            dadoBancario = new DadoBancario();
+        }
 
         dadoBancarioRepository.save(dadoBancario);
         enderecoRepository.save(endereco);

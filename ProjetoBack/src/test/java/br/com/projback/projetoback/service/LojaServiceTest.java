@@ -93,6 +93,16 @@ public class LojaServiceTest {
     }
 
     @Test
+    public void deveRetornarLojaPorCNPJComSucesso() throws LojistaException {
+        given(this.lojaRepository.findByCnpj(request.getCnpj()))
+                .willReturn(Optional.of(new Loja()));
+
+        LojaResponse response = this.service.getLojaByCnpj(request.getCnpj());
+
+        Assertions.assertNotNull(response);
+    }
+
+    @Test
     public void NaoDeveCriarUmaLojaQuandoExistirCNPJCadastrado() {
         given(this.lojaRepository.findByCnpj(request.getCnpj()))
                 .willReturn(Optional.of(new Loja()));

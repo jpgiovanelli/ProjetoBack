@@ -100,47 +100,52 @@ public class Lojista {
         lojista.setTelefone(request.getTelefone());
         lojista.setCpf(request.getCpf());
 
-        DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
+        if (lojista.getDado_bancario().size() > 0) {
+            DadoBancario dadoBancario = lojista.getDado_bancario().getFirst();
 
-        if (request.getTipoConta().equals("CC")) {
-            dadoBancario.setTipoConta(TipoConta.CONTA_CORRENTE);
-        } else if (request.getTipoConta().equals("CP")) {
-            dadoBancario.setTipoConta(TipoConta.CONTA_POUPANCA);
-        } else if (request.getTipoConta().equals("CI")) {
-            dadoBancario.setTipoConta(TipoConta.CONTA_INVESTIMENTO);
-        } else {
-            throw new LojistaException("tipoConta", "Tipo de conta invalido, valores validos: CC, CI, CP");
+            if (request.getTipoConta().equals("CC")) {
+                dadoBancario.setTipoConta(TipoConta.CONTA_CORRENTE);
+            } else if (request.getTipoConta().equals("CP")) {
+                dadoBancario.setTipoConta(TipoConta.CONTA_POUPANCA);
+            } else if (request.getTipoConta().equals("CI")) {
+                dadoBancario.setTipoConta(TipoConta.CONTA_INVESTIMENTO);
+            } else {
+                throw new LojistaException("tipoConta", "Tipo de conta invalido, valores validos: CC, CI, CP");
+            }
+
+            dadoBancario.setConta(request.getConta());
+            dadoBancario.setAgencia(request.getAgencia());
+            dadoBancario.setCodigoBanco(request.getCodigoBanco());
+            lojista.getDado_bancario().add(dadoBancario);
         }
 
-        dadoBancario.setConta(request.getConta());
-        dadoBancario.setAgencia(request.getAgencia());
-        dadoBancario.setCodigoBanco(request.getCodigoBanco());
-        lojista.getDado_bancario().add(dadoBancario);
+        if (lojista.getLojas().size() > 0) {
+            Loja loja = lojista.getLojas().getFirst();
+            loja.setCnpj(request.getCnpj());
+            loja.setNome_loja(request.getNome_loja());
+            loja.setUrl(request.getUrl());
+            loja.setMax_prod_page(request.getMax_prod_page());
+            loja.setAba_prod_add(request.getAba_prod_add());
 
-        Loja loja = lojista.getLojas().getFirst();
-        loja.setCnpj(request.getCnpj());
-        loja.setNome_loja(request.getNome_loja());
-        loja.setUrl(request.getUrl());
-        loja.setMax_prod_page(request.getMax_prod_page());
-        loja.setAba_prod_add(request.getAba_prod_add());
+            if (loja.getEndereco().size() > 0) {
+                Endereco endereco = loja.getEndereco().getFirst();
+                endereco.setLogradouro(request.getLogradouro());
+                endereco.setComplemento(request.getComplemento());
+                endereco.setCep(request.getCep());
+                endereco.setBairro(request.getBairro());
+                endereco.setCidade(request.getCidade());
+                endereco.setPais(request.getPais());
+                endereco.setEstado(request.getEstado());
 
-        Endereco endereco = loja.getEndereco().getFirst();
-        endereco.setLogradouro(request.getLogradouro());
-        endereco.setComplemento(request.getComplemento());
-        endereco.setCep(request.getCep());
-        endereco.setBairro(request.getBairro());
-        endereco.setCidade(request.getCidade());
-        endereco.setPais(request.getPais());
-        endereco.setEstado(request.getEstado());
-
-        if (request.getTipo_endereco().equals("LOJA")) {
-            endereco.setTipo_endereco(TipoEndereco.LOJA);
-        } else if (request.getTipo_endereco().equals("RESIDENCIAL")) {
-            endereco.setTipo_endereco(TipoEndereco.RESIDENCIAL);
-        } else {
-            throw new LojistaException("tipo_endereco", "Tipo de ENDERECO invalido, valores validos: LOJA, RESIDENCIAL");
+                if (request.getTipo_endereco().equals("LOJA")) {
+                    endereco.setTipo_endereco(TipoEndereco.LOJA);
+                } else if (request.getTipo_endereco().equals("RESIDENCIAL")) {
+                    endereco.setTipo_endereco(TipoEndereco.RESIDENCIAL);
+                } else {
+                    throw new LojistaException("tipo_endereco", "Tipo de ENDERECO invalido, valores validos: LOJA, RESIDENCIAL");
+                }
+            }
         }
-
         return lojista;
     };
 
