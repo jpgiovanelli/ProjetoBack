@@ -2,6 +2,7 @@ package br.com.projback.projetoback.controller;
 
 import br.com.projback.projetoback.model.*;
 import br.com.projback.projetoback.request.CadastroLojistaRequest;
+import br.com.projback.projetoback.service.LojaService;
 import br.com.projback.projetoback.service.LojistaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,9 @@ public class CadastroLojistaControllerTest {
 
     @MockBean
     private LojistaService lojistaService;
+
+    @MockBean
+    private LojaService lojaService;
 
     @Autowired
     private MockMvc mvc;
@@ -126,6 +130,52 @@ public class CadastroLojistaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(id)))
                 .andExpect(jsonPath("$.nome_completo", is(this.lojista.getNome_completo())));
+    }
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    public void deveConsultarLojistaPorCpfComSucesso() throws Exception {
+        String cpf = lojista.getCpf();
+        given(this.lojistaService.getLojistaByCpf(cpf)).willReturn(Lojista.toResponse(this.lojista));
+
+        mvc.perform(MockMvcRequestBuilders.get("/lojista/get/byCpf/?cpf=" + cpf)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cpf", is(cpf)));
+    }
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    public void deveConsultarLojistaPorCpfRetornandoNotFound() throws Exception {
+        String cpf = "111.117.891-11";
+        given(this.lojistaService.getLojistaByCpf(cpf)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.get("/lojista/get/byCpf/?cpf=" + cpf)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    public void deveConsultarLojaPorCNPJComSucesso() throws Exception {
+        String cnpj = lojista.getLojas().getFirst().getCnpj();
+        given(this.lojaService.getLojaByCnpj(cnpj)).willReturn(Loja.toResponse(lojista.getLojas().getFirst()));
+
+        mvc.perform(MockMvcRequestBuilders.get("/lojista/get/byCnpj/?cnpj=" + cnpj)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cnpj", is(cnpj)));
+    }
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    public void deveConsultarLojaPorCNPJRetornandoNotFound() throws Exception {
+        String cnpj = "12.345.679/9001-91";
+        given(this.lojaService.getLojaByCnpj(cnpj)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.get("/lojista/get/byCnpj/?cnpj=" + cnpj)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test

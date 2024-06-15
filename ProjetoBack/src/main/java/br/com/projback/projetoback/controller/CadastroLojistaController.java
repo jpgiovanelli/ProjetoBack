@@ -42,12 +42,19 @@ public class CadastroLojistaController {
 
     @GetMapping("get/byCnpj/")
     public ResponseEntity<LojaResponse> getLojistaByCnpj(@RequestParam String cnpj) throws LojistaException {
+        LojaResponse response = lojaService.getLojaByCnpj(cnpj);
+        if (response == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(lojaService.getLojaByCnpj(cnpj), HttpStatus.OK);
     }
 
     @GetMapping("get/byCpf/")
     public ResponseEntity<LojistaResponse> getLojistaByCpf(@RequestParam String cpf) throws LojistaException {
-        return new ResponseEntity<>(lojistaService.getLojistaByCpf(cpf), HttpStatus.OK);
+        LojistaResponse response = lojistaService.getLojistaByCpf(cpf);
+        if (response == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 
