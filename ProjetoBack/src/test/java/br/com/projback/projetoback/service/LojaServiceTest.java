@@ -103,6 +103,22 @@ public class LojaServiceTest {
     }
 
     @Test
+    public void NaoDeveRetornarLojaPorCNPJQuandoNaoEncontrarNaBase() {
+        given(this.lojaRepository.findByCnpj(request.getCnpj()))
+                .willReturn(Optional.empty());
+
+        LojaResponse response;
+
+        try {
+            response = this.service.getLojaByCnpj(request.getCnpj());
+        } catch (LojistaException e) {
+            response = null;
+        }
+
+        Assertions.assertNull(response);
+    }
+
+    @Test
     public void NaoDeveCriarUmaLojaQuandoExistirCNPJCadastrado() {
         given(this.lojaRepository.findByCnpj(request.getCnpj()))
                 .willReturn(Optional.of(new Loja()));

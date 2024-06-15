@@ -1,5 +1,6 @@
 package br.com.projback.projetoback.service;
 
+import br.com.projback.projetoback.exception.LojistaException;
 import br.com.projback.projetoback.model.Lojista;
 import br.com.projback.projetoback.repository.Loja_Repository;
 import br.com.projback.projetoback.repository.Lojista_Repository;
@@ -72,6 +73,23 @@ public class LojistaServiceTest {
         LojistaResponse response = this.service.getLojistaByCpf(cpf);
 
         Assertions.assertNotNull(response);
+    }
+
+    @Test
+    public void NaoDeveRetornarLojistaPorCPFQuandoNaoEncontrarNaBase() throws LojistaException {
+        String cpf = request.getCpf();
+        given(this.lojistaRepository.findByCpf(cpf))
+                .willReturn(Optional.empty());
+
+        LojistaResponse response;
+
+        try {
+            response = this.service.getLojistaByCpf(cpf);
+        } catch (LojistaException e) {
+            response = null;
+        }
+
+        Assertions.assertNull(response);
     }
 
     @Test

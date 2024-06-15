@@ -20,7 +20,7 @@
 		<sonar.coverage.exclusions>
 			**/security/**, **/exception/**, **/errorHandler/**,
 			**/model/User.java, **/model/Profile.java, **/service/UserService.java,
-			**/controller/UserController.java
+			**/controller/UserController.java, **/ProjetoBackApplication.java
 		</sonar.coverage.exclusions>
 		<sonnar.host.jacoco.xmlReportPaths>
 			../target/site/jacoco/jacoco.xml
@@ -143,9 +143,6 @@
 									<goal>report</goal>
 								</goals>
 								<configuration>
-									<excludes>
-										<exclude>*/@Autowired*</exclude>
-									</excludes>
 									<formats>
 										<format>XML</format>
 									</formats>
