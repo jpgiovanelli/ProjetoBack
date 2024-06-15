@@ -154,6 +154,22 @@ public class LojistaServiceTest {
     }
 
     @Test
+    public void NaoDeveAtualizarLojistaPorIDQuandoNaoEncontrarNaBase() throws LojistaException {
+        int id = 1;
+        given(this.lojistaRepository.findById(id))
+                .willReturn(Optional.empty());
+
+        LojistaResponse response;
+
+        try {
+            response = this.service.updateLojista(id, request);
+        } catch (LojistaException e) {
+            response = null;
+        }
+        Assertions.assertNull(response);
+    }
+
+    @Test
     public void DeveBuscarLojistaPorIDComSucesso() throws Exception{
         int id = 1;
         given(this.lojistaRepository.findById(id)).willReturn(Optional.of(new Lojista()));
