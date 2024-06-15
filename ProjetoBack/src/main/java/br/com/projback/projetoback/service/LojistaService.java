@@ -19,13 +19,13 @@ import java.util.Optional;
 @Service
 public class LojistaService {
 
-    @Autowired
+    @Autowired(required = true)
     private DadoBancario_Repository dadoBancarioRepository;
-    @Autowired
+    @Autowired(required = true)
     private Endereco_Repository enderecoRepository;
-    @Autowired
+    @Autowired(required = true)
     private Loja_Repository lojaRepository;
-    @Autowired
+    @Autowired(required = true)
     private Lojista_Repository lojistaRepository;
 
     public LojistaResponse createLojista(CadastroLojistaRequest request) throws Exception {
