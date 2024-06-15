@@ -17,6 +17,10 @@
 		<java.version>21</java.version>
 	  	<sonar.organization>jpgiovanelli</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.exclusions>
+			**/security/**, **/exception/**, **/errorHandler/**,
+			**/model/User.java, **/model/Profile.java, **/service/UserService.java
+		</sonar.coverage.exclusions>
 		<sonnar.host.jacoco.xmlReportPaths>
 			../target/site/jacoco/jacoco.xml
 		</sonnar.host.jacoco.xmlReportPaths>
