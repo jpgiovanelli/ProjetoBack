@@ -67,6 +67,58 @@ public class LojistaServiceTest {
     }
 
     @Test
+    public void DeveCriarUmaLojaComSucesso2() throws Exception{
+        //AAA(ARRANGE, ACT, ASSERT)
+
+        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.empty());
+
+        request.setTipoConta("CC");
+        request.setTipo_endereco("LOJA");
+        request.setCnpj("12.345.678/9111-90");
+        request.setCpf("111.111.111-22");
+
+        LojistaResponse response = this.service.createLojista(request);
+
+        Assertions.assertNotNull(request);
+        Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
+        Assertions.assertFalse(response.getEnabled());
+
+    }
+
+    @Test
+    public void DeveCriarUmaLojaComSucesso3() throws Exception{
+        //AAA(ARRANGE, ACT, ASSERT)
+
+        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.empty());
+
+        request.setTipoConta("CP");
+        request.setCnpj("12.345.678/9145-90");
+        request.setCpf("111.111.111-33");
+
+        LojistaResponse response = this.service.createLojista(request);
+
+        Assertions.assertNotNull(request);
+        Assertions.assertEquals(request.getNome_completo(), response.getNome_completo());
+        Assertions.assertFalse(response.getEnabled());
+
+    }
+
+    @Test
+    public void naoDeveCriarLojistaComCpfJaExistente() {
+        given(this.lojistaRepository.findByCpf(request.getCpf())).willReturn(Optional.of(new Lojista()));
+
+        LojistaResponse response;
+
+        try {
+            response = this.service.createLojista(request);
+        } catch (Exception e) {
+            response = null;
+        }
+
+        Assertions.assertNull(response);
+    }
+
+    @Test
     public void deveBuscarLojistaPorCPFComSucesso() throws Exception{
         String cpf = request.getCpf();
         given(this.lojistaRepository.findByCpf(cpf)).willReturn(Optional.of(new Lojista()));
