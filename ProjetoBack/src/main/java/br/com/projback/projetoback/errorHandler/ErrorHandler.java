@@ -1,5 +1,6 @@
 package br.com.projback.projetoback.errorHandler;
 
+import br.com.projback.projetoback.exception.LojistaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +23,21 @@ public class ErrorHandler {
             validation.setMessage(item.getDefaultMessage());
             response.getValidationsErrors().add(validation);
         }
+
+        return response;
+    };
+
+    @ExceptionHandler(LojistaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrorResponse validationHandlerLojistaEx(LojistaException error) {
+        ValidationErrorResponse response = new ValidationErrorResponse();
+
+
+        Validation validation = new Validation();
+        validation.setField(error.getField());
+        validation.setMessage(error.getMessage());
+        response.getValidationsErrors().add(validation);
 
         return response;
     }
