@@ -80,7 +80,7 @@ public class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.get("/user/get/byId/" + id)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNoContent());
     }
 
     @Test

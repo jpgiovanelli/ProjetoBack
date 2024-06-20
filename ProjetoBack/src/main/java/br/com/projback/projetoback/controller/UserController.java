@@ -66,7 +66,7 @@ public class UserController {
         User response = this.userService.getById(id);
 
         if (response == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 

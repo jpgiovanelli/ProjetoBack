@@ -9,4 +9,7 @@ public class LojistaException extends Exception{
     public String getField(){
         return this.field;
     }
+    public String getMessage(){
+        return this.field;
+    }
 }
